@@ -34,6 +34,11 @@
   .burger { position: fixed; top: 16px; left: 16px; z-index: 30; width: 46px; height: 46px; background: var(--orange); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; }
   .burger span { display: block; width: 20px; height: 3px; background: #000; border-radius: 2px; }
   #menu-toggle:focus-visible + .burger { outline: 3px solid #fff; outline-offset: 3px; }
+  /* Floating Pinterest button, right next to the burger */
+  .pin-float { position: fixed; top: 16px; left: 74px; z-index: 30; width: 46px; height: 46px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.35); transition: transform .2s ease; }
+  .pin-float img { display: block; width: 100%; height: 100%; border-radius: 50%; }
+  .pin-float:hover, .pin-float:focus-visible { transform: scale(1.1); }
+
   .menu { position: fixed; inset: 0; z-index: 20; background: var(--brown); display: none; flex-direction: column; justify-content: center; padding: 0 12vw; gap: 18px; }
   #menu-toggle:checked ~ .menu { display: flex; }
   .menu a { font-weight: 800; font-size: clamp(2rem, 7vw, 3.5rem); color: var(--orange); text-transform: uppercase; }
@@ -46,7 +51,7 @@
   .logo { position: relative; margin-top: calc(var(--logo-size) * -.47); width: var(--logo-size); height: var(--logo-size); flex: none; overflow: hidden; }
   .logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .logo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), transparent 55%); }
-  .logo span { position: absolute; left: 14px; bottom: 12px; z-index: 1; font-weight: 800; font-size: calc(var(--logo-size) * .19); color: var(--orange); line-height: 1; }
+  .logo span { position: absolute; left: 14px; bottom: 12px; z-index: 1; font-weight: 800; font-size: calc(var(--logo-size) * .16); white-space: nowrap; color: var(--orange); line-height: 1; }
   .intro { flex: 1 1 320px; padding-top: 22px; }
   .intro h1 { margin: 0 0 8px; font-weight: 400; font-size: 1.4rem; }
   .intro p { margin: 0 0 12px; font-weight: 300; color: #d6d6d6; max-width: 62ch; }
@@ -75,8 +80,6 @@
   /* Museum rows */
   .museum { max-width: var(--page-width); margin: 0 auto; padding: 40px 6vw 24px; }
   .museum h2 { font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
-  .freebie { display: inline-block; margin-bottom: 36px; background: var(--orange); color: #000; font-weight: 800; padding: 10px 22px; border-radius: 999px; }
-  .freebie:hover { background: var(--brown); color: var(--orange); }
   .row { margin-bottom: 44px; scroll-margin-top: 20px; }
   .row h3 { margin: 0; font-weight: 800; font-size: 1.15rem; text-transform: uppercase; color: #000; display: inline-flex; align-items: center; gap: 8px; }
   .row h3::after { content: ""; border-left: 9px solid var(--orange); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
@@ -84,7 +87,8 @@
 
   /* Carousel: 5 visible, swipe or use the arrows */
   .carousel { position: relative; }
-  .track { display: flex; gap: var(--carousel-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .track { display: flex; gap: var(--carousel-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; overscroll-behavior-x: contain; cursor: grab; }
+  .track.dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
   .track::-webkit-scrollbar { display: none; }
   .track a { flex: 0 0 calc((100% - 4 * var(--carousel-gap)) / 5); aspect-ratio: 3 / 4; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.8); font-size: .8rem; }
   .track a:nth-child(5n+1) { background: #c98b3d; }
@@ -115,18 +119,18 @@
 
 <input type="checkbox" id="menu-toggle" aria-label="Open menu">
 <label class="burger" for="menu-toggle" aria-hidden="true"><span></span><span></span><span></span></label>
+<a class="pin-float" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener" aria-label="Alva on Pinterest"><img src="images/pinterest.png" alt=""></a>
 <nav class="menu" aria-label="Main menu">
   <a href="#travel">Travel</a>
   <a href="#photography">Photography</a>
   <a href="#art">Art</a>
   <a href="#motorcycling">Motorcycling</a>
-  <a href="#freebies">Free templates</a>
 </nav>
 
 <header class="hero">
   <img class="hero-photo" src="images/header-banner.jpg" alt="Night street with a lit convenience store and traffic lights">
   <div class="hero-body">
-    <div class="logo"><img src="images/header-square.jpg" alt=""><span>ALV/<br>ART</span></div>
+    <div class="logo"><img src="images/header-square.jpg" alt=""><span>ALV/ART</span></div>
     <div class="intro">
       <p>My Little Museum of Creative Stuff</p>
       <h1>Hi, I am Alva</h1>
@@ -153,8 +157,6 @@
 
 <main class="museum">
   <h2>My Little Museum of Creative Stuff</h2>
-  <a class="freebie" id="freebies" href="#">Free templates</a>
-
   <section class="row" id="travel">
     <h3>Travel</h3>
     <p>I plan by getting lost in rabbit holes: the perfect spot to sleep, the perfect route, that one hidden place nobody talks about. I share the spots I find here, and if you’re curious, feel free to get inspired :D</p>
@@ -198,15 +200,40 @@
 
 <footer>
   <span>© 2026 ALV/ART</span>
-  <a href="https://www.pinterest.com/" rel="noopener">Pinterest</a>
+  <a href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener">Pinterest</a>
 </footer>
 
 <script>
-  // Arrow buttons scroll each carousel by about one screenful
   document.querySelectorAll(".carousel").forEach(function (c) {
     var track = c.querySelector(".track");
+
+    // Arrow buttons scroll by about one screenful
     c.querySelector(".prev").addEventListener("click", function () { track.scrollBy({ left: -track.clientWidth * 0.8, behavior: "smooth" }); });
     c.querySelector(".next").addEventListener("click", function () { track.scrollBy({ left: track.clientWidth * 0.8, behavior: "smooth" }); });
+
+    // Mouse / trackpad drag (touch screens scroll natively by swiping)
+    var down = false, startX = 0, startLeft = 0, moved = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 5) { moved = true; track.classList.add("dragging"); }
+      if (moved) track.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener("pointerup", function () {
+      if (!down) return;
+      down = false; track.classList.remove("dragging");
+    });
+    // A drag should not count as a click, and placeholder links should not jump to the top
+    track.addEventListener("click", function (e) {
+      var a = e.target.closest("a");
+      if (moved || (a && a.getAttribute("href") === "#")) e.preventDefault();
+      moved = false;
+    });
+    track.addEventListener("dragstart", function (e) { e.preventDefault(); });
   });
 </script>
 </body>
