@@ -9,12 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;800&display=swap" rel="stylesheet">
 <style>
   :root {
+    /* ===== EINSTELLUNGEN: hier kannst du Zahlen ändern ===== */
+    --page-width: 1100px;        /* maximale Breite des Inhalts */
+    --carousel-gap: 14px;        /* Abstand zwischen den Bildern im Karussell */
+    --header-photo-height: 200px;/* Höhe des Header-Banners */
+    --logo-size: 190px;          /* Größe des ALV/ART-Blocks (am Handy automatisch kleiner) */
+    /* Farben */
     --orange: #ff7a00;
     --rust: #c0390b;
     --olive: #8c8a2e;
     --brown: #52251c;
     --green: #17352c;
-    --sand: #e8e2df;
     --ink: #1a1a1a;
     --text: #3d3d3d;
   }
@@ -22,7 +27,7 @@
   html { scroll-behavior: smooth; }
   body { margin: 0; font-family: "Jost", "Futura", sans-serif; color: var(--text); background: #fff; line-height: 1.5; }
   a { color: inherit; text-decoration: none; }
-  a:focus-visible, label:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+  a:focus-visible, label:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 
   /* Burger menu (works without JavaScript) */
   #menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
@@ -36,34 +41,37 @@
 
   /* Header */
   .hero { background: #000; color: #fff; }
-  .hero-photo { height: 200px; background: linear-gradient(120deg, #0b1d1f, #1d5c5a 55%, #0b1d1f); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.35); font-size: .9rem; }
-  .hero-body { display: flex; flex-wrap: wrap; gap: 28px; padding: 0 6vw 40px; max-width: 1100px; margin: 0 auto; }
-  .logo { margin-top: -90px; width: 190px; height: 190px; flex: none; background: linear-gradient(160deg, #7a1f06, #d44a10); display: flex; align-items: flex-end; padding: 14px; }
+  .hero-photo { height: var(--header-photo-height); background: linear-gradient(120deg, #0b1d1f, #1d5c5a 55%, #0b1d1f); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.35); font-size: .9rem; }
+  .hero-body { display: flex; flex-wrap: wrap; gap: 28px; padding: 0 6vw 40px; max-width: var(--page-width); margin: 0 auto; }
+  .logo { margin-top: calc(var(--logo-size) * -.47); width: var(--logo-size); height: var(--logo-size); flex: none; background: linear-gradient(160deg, #7a1f06, #d44a10); display: flex; align-items: flex-end; padding: 14px; }
   .logo span { font-weight: 800; font-size: 2.2rem; color: var(--orange); line-height: 1; }
   .intro { flex: 1 1 320px; padding-top: 22px; }
   .intro h1 { margin: 0 0 8px; font-weight: 400; font-size: 1.4rem; }
   .intro p { margin: 0 0 12px; font-weight: 300; color: #d6d6d6; max-width: 62ch; }
   .intro .driven { color: var(--orange); font-weight: 800; }
 
-  /* Quarter-circle navigation tiles */
-  .tiles { background: var(--sand); padding: 48px 6vw; }
-  .tiles-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-  .tile { display: block; position: relative; transition: transform .25s ease, filter .25s ease; }
-  .tile .pic { aspect-ratio: 1 / 1; border-radius: 100% 0 0 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.7); font-size: .85rem; }
-  .tile .name { height: 50%; min-height: 70px; border-radius: 0 0 100% 0; padding: 14px 18px 0 18px; display: flex; align-items: flex-start; font-weight: 800; color: #fff; text-transform: uppercase; font-size: 1.05rem; }
-  .tile:hover, .tile:focus-visible { transform: scale(1.05); filter: drop-shadow(0 10px 14px rgba(0,0,0,.3)); z-index: 2; }
-  .tile.travel .pic { background: linear-gradient(160deg, #5a8f4a, #cfa43a); }
-  .tile.travel .name { background: var(--olive); }
-  .tile.photo .pic { background: linear-gradient(160deg, #f0a24a, #4b4a6b); }
-  .tile.photo .name { background: var(--brown); }
-  .tile.art .pic { background: linear-gradient(160deg, #6fa8c9, #e9b98a); }
-  .tile.art .name { background: var(--rust); }
-  .tile.moto .pic { background: linear-gradient(160deg, #1f6e8c, #d9b13b); }
-  .tile.moto .name { background: var(--green); }
-  .tile .name::after { content: ""; margin: 6px 0 0 8px; border-left: 9px solid var(--orange); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  /* Tiles: four separate images, arranged like your Canva layout */
+  .tiles { background: #fff; padding: 48px 6vw 24px; }
+  .tilemap { max-width: var(--page-width); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 1fr 1fr; aspect-ratio: 2 / 1; }
+  .hit { position: relative; display: block; transition: opacity .25s ease, transform .25s ease; }
+  .hit img { display: block; width: 100%; height: 100%; }
+  .hit.travel { grid-column: 1;     grid-row: 1 / 3; }
+  .hit.photo  { grid-column: 2;     grid-row: 1 / 3; }
+  .hit.art    { grid-column: 3 / 5; grid-row: 1; }
+  .hit.moto   { grid-column: 3 / 5; grid-row: 2; }
+  /* the tile you point at stays strong, the others fade back */
+  .tilemap:has(.hit:hover) .hit:not(:hover),
+  .tilemap:has(.hit:focus-visible) .hit:not(:focus-visible) { opacity: .35; }
+  .hit:hover, .hit:focus-visible { transform: scale(1.02); z-index: 1; }
+  .hit span { position: absolute; z-index: 1; display: flex; align-items: center; gap: 8px; font-weight: 800; text-transform: uppercase; color: #fff; font-size: clamp(.75rem, 1.6vw, 1.15rem); }
+  .hit span::after { content: ""; border-left: 8px solid var(--orange); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+  .hit.travel span, .hit.photo span { left: 9%; top: 54%; }
+  .hit.art span { left: 53%; top: 8%; }
+  .hit.moto span { left: 53%; bottom: 10%; }
+  .tile-links { display: none; }
 
   /* Museum rows */
-  .museum { max-width: 1100px; margin: 0 auto; padding: 56px 6vw 24px; }
+  .museum { max-width: var(--page-width); margin: 0 auto; padding: 40px 6vw 24px; }
   .museum h2 { font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
   .freebie { display: inline-block; margin-bottom: 36px; background: var(--orange); color: #000; font-weight: 800; padding: 10px 22px; border-radius: 999px; }
   .freebie:hover { background: var(--brown); color: var(--orange); }
@@ -71,23 +79,33 @@
   .row h3 { margin: 0; font-weight: 800; font-size: 1.15rem; text-transform: uppercase; color: #000; display: inline-flex; align-items: center; gap: 8px; }
   .row h3::after { content: ""; border-left: 9px solid var(--orange); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
   .row p { margin: 6px 0 16px; max-width: 80ch; color: var(--text); font-size: 1rem; }
-  .strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-  .strip a { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.75); font-size: .8rem; transition: transform .2s ease; }
-  .strip a:hover { transform: translateY(-4px); }
-  .strip a:nth-child(1) { background: #c98b3d; }
-  .strip a:nth-child(2) { background: #6b6b4a; }
-  .strip a:nth-child(3) { background: #3f7a8c; }
-  .strip a:nth-child(4) { background: #8a4b3a; }
-  .strip a:nth-child(5) { background: #7fa6a3; }
+
+  /* Carousel: 5 visible, swipe or use the arrows */
+  .carousel { position: relative; }
+  .track { display: flex; gap: var(--carousel-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .track::-webkit-scrollbar { display: none; }
+  .track a { flex: 0 0 calc((100% - 4 * var(--carousel-gap)) / 5); aspect-ratio: 3 / 4; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.8); font-size: .8rem; }
+  .track a:nth-child(5n+1) { background: #c98b3d; }
+  .track a:nth-child(5n+2) { background: #6b6b4a; }
+  .track a:nth-child(5n+3) { background: #3f7a8c; }
+  .track a:nth-child(5n+4) { background: #8a4b3a; }
+  .track a:nth-child(5n+5) { background: #7fa6a3; }
+  .nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--orange); color: #000; font-size: 1.6rem; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease; }
+  .nav.prev { left: -10px; }
+  .nav.next { right: -10px; }
+  .carousel:hover .nav, .nav:focus-visible { opacity: 1; }
 
   footer { background: var(--brown); color: var(--orange); font-weight: 800; padding: 16px 6vw; display: flex; justify-content: space-between; }
   footer a:hover { color: #fff; }
 
-  @media (max-width: 760px) {
-    .tiles-grid { grid-template-columns: repeat(2, 1fr); row-gap: 18px; }
-    .strip { grid-template-columns: repeat(2, 1fr); }
-    .logo { margin-top: -60px; width: 150px; height: 150px; }
+  @media (max-width: 700px) {
+    :root { --logo-size: 150px; }
+    .hit span { display: none; }
+    .tile-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: var(--page-width); margin: 18px auto 0; }
+    .tile-links a { color: #fff; font-weight: 800; text-transform: uppercase; padding: 12px 14px; border-radius: 0 0 22px 0; }
+    .track a { flex-basis: 42%; }
   }
+  @media (hover: none) { .nav { display: none; } }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -117,11 +135,17 @@
 </header>
 
 <section class="tiles" aria-label="Topics">
-  <div class="tiles-grid">
-    <a class="tile travel" href="#travel"><div class="pic">photo</div><div class="name">Travel</div></a>
-    <a class="tile photo" href="#photography"><div class="pic">photo</div><div class="name">Photography</div></a>
-    <a class="tile art" href="#art"><div class="pic">photo</div><div class="name">Art</div></a>
-    <a class="tile moto" href="#motorcycling"><div class="pic">photo</div><div class="name">Motorcycling</div></a>
+  <div class="tilemap">
+    <a class="hit travel" href="#travel" aria-label="Travel"><img src="images/travel.png" alt=""><span>Travel</span></a>
+    <a class="hit photo" href="#photography" aria-label="Photography"><img src="images/photography.png" alt=""><span>Photography</span></a>
+    <a class="hit art" href="#art" aria-label="Art"><img src="images/art.png" alt=""><span>Art</span></a>
+    <a class="hit moto" href="#motorcycling" aria-label="Motorcycling"><img src="images/motorcycling.png" alt=""><span>Motorcycling</span></a>
+  </div>
+  <div class="tile-links">
+    <a href="#travel" style="background:var(--olive)">Travel</a>
+    <a href="#photography" style="background:var(--brown)">Photography</a>
+    <a href="#art" style="background:var(--rust)">Art</a>
+    <a href="#motorcycling" style="background:var(--green)">Motorcycling</a>
   </div>
 </section>
 
@@ -132,25 +156,41 @@
   <section class="row" id="travel">
     <h3>Travel</h3>
     <p>I plan by getting lost in rabbit holes: the perfect spot to sleep, the perfect route, that one hidden place nobody talks about. I share the spots I find here, and if you’re curious, feel free to get inspired :D</p>
-    <div class="strip"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+    <div class="carousel">
+      <button class="nav prev" aria-label="Previous images">‹</button>
+      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <button class="nav next" aria-label="Next images">›</button>
+    </div>
   </section>
 
   <section class="row" id="photography">
     <h3>Photography</h3>
     <p>Shot on my iPhone. People keep asking what camera I use, and the answer is: the one in my pocket. I’m still flirting with a “real” camera, but for now phone photography is fun and honestly enough for me.</p>
-    <div class="strip"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+    <div class="carousel">
+      <button class="nav prev" aria-label="Previous images">‹</button>
+      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <button class="nav next" aria-label="Next images">›</button>
+    </div>
   </section>
 
   <section class="row" id="art">
     <h3>Art</h3>
     <p>Postcards, posters, little designs for my motorcycle: I love to illustrate. Lately I’m also drifting back to paint and canvas, trading pixels for brushes again.</p>
-    <div class="strip"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+    <div class="carousel">
+      <button class="nav prev" aria-label="Previous images">‹</button>
+      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <button class="nav next" aria-label="Next images">›</button>
+    </div>
   </section>
 
   <section class="row" id="motorcycling">
     <h3>Motorcycling</h3>
     <p>Here you can find some of my trips. I love riding through the mountains and catching every curve. With a naked bike I keep the trips doable, because there’s a limit until you’d probably need a proper touring bike, haha. But I love it and like to share our stories here. Feel free to get inspired by them!</p>
-    <div class="strip"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+    <div class="carousel">
+      <button class="nav prev" aria-label="Previous images">‹</button>
+      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <button class="nav next" aria-label="Next images">›</button>
+    </div>
   </section>
 </main>
 
@@ -159,5 +199,13 @@
   <a href="https://www.pinterest.com/" rel="noopener">Pinterest</a>
 </footer>
 
+<script>
+  // Arrow buttons scroll each carousel by about one screenful
+  document.querySelectorAll(".carousel").forEach(function (c) {
+    var track = c.querySelector(".track");
+    c.querySelector(".prev").addEventListener("click", function () { track.scrollBy({ left: -track.clientWidth * 0.8, behavior: "smooth" }); });
+    c.querySelector(".next").addEventListener("click", function () { track.scrollBy({ left: track.clientWidth * 0.8, behavior: "smooth" }); });
+  });
+</script>
 </body>
 </html>
