@@ -96,6 +96,10 @@
   .track a:nth-child(5n+3) { background: #3f7a8c; }
   .track a:nth-child(5n+4) { background: #8a4b3a; }
   .track a:nth-child(5n+5) { background: #7fa6a3; }
+  .track a.feature { background: #fff; border: 1px solid #e6e0d8; padding: 0; flex-direction: column; align-items: stretch; justify-content: flex-start; color: #000; overflow: hidden; }
+  .track a.feature img { display: block; width: 100%; flex: 1 1 0; min-height: 0; object-fit: cover; }
+  .track a.feature .cap { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #fff; color: #000; font-weight: 800; font-size: .85rem; line-height: 1.25; text-transform: uppercase; padding: 10px 12px; }
+  .track a.feature .cap::after { content: ""; flex: none; border-left: 8px solid var(--orange); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
   .nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--orange); color: #000; font-size: 1.6rem; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease; }
   .nav.prev { left: -10px; }
   .nav.next { right: -10px; }
@@ -121,10 +125,10 @@
 <label class="burger" for="menu-toggle" aria-hidden="true"><span></span><span></span><span></span></label>
 <a class="pin-float" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener" aria-label="Alva on Pinterest"><img src="images/pinterest.png" alt=""></a>
 <nav class="menu" aria-label="Main menu">
-  <a href="#travel">Travel</a>
-  <a href="#photography">Photography</a>
-  <a href="#art">Art</a>
-  <a href="#motorcycling">Motorcycling</a>
+  <a href="travel/">Travel</a>
+  <a href="photography/">Photography</a>
+  <a href="art/">Art</a>
+  <a href="motorcycling/">Motorcycling</a>
 </nav>
 
 <header class="hero">
@@ -142,23 +146,23 @@
 
 <section class="tiles" aria-label="Topics">
   <div class="tilemap">
-    <a class="hit travel" href="#travel" aria-label="Travel"><img src="images/travel.png" alt=""><span>Travel</span></a>
-    <a class="hit photo" href="#photography" aria-label="Photography"><img src="images/photography.png" alt=""><span>Photography</span></a>
-    <a class="hit art" href="#art" aria-label="Art"><img src="images/art.png" alt=""><span>Art</span></a>
-    <a class="hit moto" href="#motorcycling" aria-label="Motorcycling"><img src="images/motorcycling.png" alt=""><span>Motorcycling</span></a>
+    <a class="hit travel" href="travel/" aria-label="Travel"><img src="images/travel.png" alt=""><span>Travel</span></a>
+    <a class="hit photo" href="photography/" aria-label="Photography"><img src="images/photography.png" alt=""><span>Photography</span></a>
+    <a class="hit art" href="art/" aria-label="Art"><img src="images/art.png" alt=""><span>Art</span></a>
+    <a class="hit moto" href="motorcycling/" aria-label="Motorcycling"><img src="images/motorcycling.png" alt=""><span>Motorcycling</span></a>
   </div>
   <div class="tile-links">
-    <a href="#travel" style="background:var(--olive)">Travel</a>
-    <a href="#photography" style="background:var(--brown)">Photography</a>
-    <a href="#art" style="background:var(--rust)">Art</a>
-    <a href="#motorcycling" style="background:var(--green)">Motorcycling</a>
+    <a href="travel/" style="background:var(--olive)">Travel</a>
+    <a href="photography/" style="background:var(--brown)">Photography</a>
+    <a href="art/" style="background:var(--rust)">Art</a>
+    <a href="motorcycling/" style="background:var(--green)">Motorcycling</a>
   </div>
 </section>
 
 <main class="museum">
   <h2>My Little Museum of Creative Stuff</h2>
   <section class="row" id="travel">
-    <h3>Travel</h3>
+    <h3><a href="travel/">Travel</a></h3>
     <p>I plan by getting lost in rabbit holes: the perfect spot to sleep, the perfect route, that one hidden place nobody talks about. I share the spots I find here, and if you’re curious, feel free to get inspired :D</p>
     <div class="carousel">
       <button class="nav prev" aria-label="Previous images">‹</button>
@@ -168,7 +172,7 @@
   </section>
 
   <section class="row" id="photography">
-    <h3>Photography</h3>
+    <h3><a href="photography/">Photography</a></h3>
     <p>Shot on my iPhone. People keep asking what camera I use, and the answer is: the one in my pocket. I’m still flirting with a “real” camera, but for now phone photography is fun and honestly enough for me.</p>
     <div class="carousel">
       <button class="nav prev" aria-label="Previous images">‹</button>
@@ -178,17 +182,17 @@
   </section>
 
   <section class="row" id="art">
-    <h3>Art</h3>
+    <h3><a href="art/">Art</a></h3>
     <p>Postcards, posters, little designs for my motorcycle: I love to illustrate. Lately I’m also drifting back to paint and canvas, trading pixels for brushes again.</p>
     <div class="carousel">
       <button class="nav prev" aria-label="Previous images">‹</button>
-      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <div class="track"><a class="feature" href="art/bauhaus-poster-freebie.html"><img src="images/thumb-poster.jpg" alt="Two Bauhaus photo collage posters in frames above a piano"><span class="cap">Free Bauhaus poster templates</span></a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
       <button class="nav next" aria-label="Next images">›</button>
     </div>
   </section>
 
   <section class="row" id="motorcycling">
-    <h3>Motorcycling</h3>
+    <h3><a href="motorcycling/">Motorcycling</a></h3>
     <p>Here you can find some of my trips. I love riding through the mountains and catching every curve. With a naked bike I keep the trips doable, because there’s a limit until you’d probably need a proper touring bike, haha. But I love it and like to share our stories here. Feel free to get inspired by them!</p>
     <div class="carousel">
       <button class="nav prev" aria-label="Previous images">‹</button>

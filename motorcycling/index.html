@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motorcycling – ALV/ART</title>
+<meta name="description" content="Motorcycle trips and stories by Alva.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-width: 1100px;
+    --orange: #ff7a00;
+    --brown: #52251c;
+    --cream: #faf6f1;
+    --text: #3d3d3d;
+    --accent: #17352c;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Jost", "Futura", sans-serif; color: var(--text); background: var(--cream); line-height: 1.6; }
+  a { color: inherit; }
+  a:focus-visible, label:focus-visible, .btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+  #menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
+  .burger { position: fixed; top: 16px; left: 16px; z-index: 30; width: 46px; height: 46px; background: var(--orange); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+  .burger span { display: block; width: 20px; height: 3px; background: #000; border-radius: 2px; }
+  #menu-toggle:focus-visible + .burger { outline: 3px solid #fff; outline-offset: 3px; }
+  .pin-float { position: fixed; top: 16px; left: 74px; z-index: 30; width: 46px; height: 46px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.35); transition: transform .2s ease; }
+  .pin-float img { display: block; width: 100%; height: 100%; border-radius: 50%; }
+  .pin-float:hover, .pin-float:focus-visible { transform: scale(1.1); }
+  .menu { position: fixed; inset: 0; z-index: 20; background: var(--brown); display: none; flex-direction: column; justify-content: center; padding: 0 12vw; gap: 18px; }
+  #menu-toggle:checked ~ .menu { display: flex; }
+  .menu a { text-decoration: none; font-weight: 800; font-size: clamp(2rem, 7vw, 3.5rem); color: var(--orange); text-transform: uppercase; }
+  .menu a:hover { color: #fff; }
+
+  .hero { background: var(--accent); color: #fff; }
+  .hero-inner { max-width: var(--page-width); margin: 0 auto; padding: 96px 6vw 56px; }
+  .kicker { margin: 0 0 10px; font-weight: 800; font-size: .95rem; letter-spacing: .04em; text-transform: uppercase; color: var(--orange); }
+  .kicker a { text-decoration: none; }
+  .kicker a:hover { color: #fff; }
+  h1 { margin: 0 0 14px; font-weight: 800; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; text-transform: uppercase; }
+  .hero p.lead { margin: 0; max-width: 62ch; font-weight: 300; font-size: 1.15rem; }
+
+  main { max-width: var(--page-width); margin: 0 auto; padding: 48px 6vw 24px; }
+  main h2 { margin: 0 0 22px; font-weight: 800; font-size: 1.15rem; text-transform: uppercase; color: #000; display: flex; align-items: center; gap: 8px; }
+  main h2::after { content: ""; border-left: 9px solid var(--orange); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .card { background: #fff; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .card .pic { display: block; aspect-ratio: 3 / 4; background: #e9dfd2; overflow: hidden; }
+  .card .pic img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+  .card:hover .pic img { transform: scale(1.04); }
+  .card .body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card h3 { margin: 0; font-weight: 800; font-size: 1.25rem; line-height: 1.2; text-transform: uppercase; color: #000; }
+  .card h3 a { text-decoration: none; }
+  .card p { margin: 0; font-size: 1rem; }
+  .btn { display: inline-block; align-self: flex-start; margin-top: auto; background: var(--orange); color: var(--brown); font-weight: 800; text-decoration: none; padding: 11px 24px; border-radius: 999px; transition: background .2s ease, color .2s ease; }
+  .btn:hover { background: var(--brown); color: var(--orange); }
+  .card.soon { background: transparent; box-shadow: none; border: 2px dashed #cdbfae; }
+  .card.soon .body { justify-content: center; padding: 28px 24px; min-height: 260px; }
+  .card.soon h3 { color: var(--accent); }
+
+  footer { margin-top: 48px; background: var(--brown); color: var(--orange); font-weight: 800; padding: 16px 6vw; display: flex; justify-content: space-between; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } .hero-inner { padding-top: 88px; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<input type="checkbox" id="menu-toggle" aria-label="Open menu">
+<label class="burger" for="menu-toggle" aria-hidden="true"><span></span><span></span><span></span></label>
+<a class="pin-float" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener" aria-label="Alva on Pinterest"><img src="../images/pinterest.png" alt=""></a>
+<nav class="menu" aria-label="Main menu">
+  <a href="../index.html">Home</a>
+  <a href="../travel/">Travel</a>
+  <a href="../photography/">Photography</a>
+  <a href="../art/">Art</a>
+  <a href="../motorcycling/">Motorcycling</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker"><a href="../index.html">ALV/ART</a> / Motorcycling</p>
+    <h1>Motorcycling</h1>
+    <p class="lead">Here you can find some of my trips. I love riding through the mountains and catching every curve. With a naked bike I keep the trips doable, because there’s a limit until you’d probably need a proper touring bike, haha. But I love it and like to share our stories here. Feel free to get inspired by them!</p>
+  </div>
+</header>
+
+<main>
+  <h2>Posts</h2>
+  <div class="cards">
+    <article class="card soon">
+      <div class="body">
+        <h3>First posts coming soon</h3>
+        <p>I am still filling this part of the museum. Follow me on Pinterest to see when something new appears.</p>
+        <a class="btn" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener">Follow on Pinterest</a>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 ALV/ART</span>
+  <a href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener">Pinterest</a>
+</footer>
+
+</body>
+</html>
