@@ -100,10 +100,16 @@
   .track a.feature img { display: block; width: 100%; flex: 1 1 0; min-height: 0; object-fit: cover; }
   .track a.feature .cap { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #fff; color: #000; font-weight: 800; font-size: .85rem; line-height: 1.25; text-transform: uppercase; padding: 10px 12px; }
   .track a.feature .cap::after { content: ""; flex: none; border-left: 8px solid var(--orange); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+  .track.static { cursor: auto; overflow: visible; }
+  .track a.soon { background: transparent; border: 2px dashed #cdbfae; flex-direction: column; gap: 8px; padding: 14px; text-align: center; color: var(--text); }
+  .track a.soon b { font-weight: 800; font-size: .85rem; line-height: 1.25; text-transform: uppercase; color: var(--rust); }
+  .track a.soon span { font-size: .8rem; font-weight: 400; }
+  .track a.soon:hover { border-color: var(--orange); }
   .nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--orange); color: #000; font-size: 1.6rem; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease; }
   .nav.prev { left: -10px; }
   .nav.next { right: -10px; }
   .carousel:hover .nav, .nav:focus-visible { opacity: 1; }
+  .carousel.no-scroll .nav { display: none; }
 
   footer { background: var(--brown); color: var(--orange); font-weight: 800; padding: 16px 6vw; display: flex; justify-content: space-between; }
   footer a:hover { color: #fff; }
@@ -167,22 +173,14 @@
   <h2>My Little Museum of Creative Stuff</h2>
   <section class="row" id="travel">
     <h3><a href="travel/">Travel</a></h3>
-    <p>I plan by getting lost in rabbit holes: the perfect spot to sleep, the perfect route, that one hidden place nobody talks about. I share the spots I find here, and if you’re curious, feel free to get inspired :D</p>
-    <div class="carousel">
-      <button class="nav prev" aria-label="Previous images">‹</button>
-      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
-      <button class="nav next" aria-label="Next images">›</button>
-    </div>
+    <p>I plan by getting lost in rabbit holes: the perfect spot to sleep, the perfect route, that one hidden place nobody talks about. I share the spots I find here, and if you’re curious, feel free to get inspired.</p>
+    <div class="track static"><a class="soon" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener"><b>First posts coming soon</b><span>Follow me on Pinterest</span></a></div>
   </section>
 
   <section class="row" id="photography">
     <h3><a href="photography/">Photography</a></h3>
     <p>Shot on my iPhone. People keep asking what camera I use, and the answer is: the one in my pocket. I’m still flirting with a “real” camera, but for now phone photography is fun and honestly enough for me.</p>
-    <div class="carousel">
-      <button class="nav prev" aria-label="Previous images">‹</button>
-      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
-      <button class="nav next" aria-label="Next images">›</button>
-    </div>
+    <div class="track static"><a class="soon" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener"><b>First posts coming soon</b><span>Follow me on Pinterest</span></a></div>
   </section>
 
   <section class="row" id="art">
@@ -190,7 +188,7 @@
     <p>Postcards, posters, little designs for my motorcycle: I love to illustrate. Lately I’m also drifting back to paint and canvas, trading pixels for brushes again.</p>
     <div class="carousel">
       <button class="nav prev" aria-label="Previous images">‹</button>
-      <div class="track"><a class="feature" href="art/bauhaus-poster-freebie.html"><img src="images/thumb-poster.jpg" alt="Two Bauhaus photo collage posters in frames above a piano"><span class="cap">Free Bauhaus poster templates</span></a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
+      <div class="track"><a class="feature" href="art/bauhaus-poster-freebie.html"><img src="images/thumb-poster.jpg" alt="Two Bauhaus photo collage posters in frames above a piano"><span class="cap">Free Bauhaus poster templates</span></a><a class="soon" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener"><b>More coming soon</b><span>Follow me on Pinterest</span></a></div>
       <button class="nav next" aria-label="Next images">›</button>
     </div>
   </section>
@@ -198,11 +196,7 @@
   <section class="row" id="motorcycling">
     <h3><a href="motorcycling/">Motorcycling</a></h3>
     <p>Here you can find some of my trips. I love riding through the mountains and catching every curve. With a naked bike I keep the trips doable, because there’s a limit until you’d probably need a proper touring bike, haha. But I love it and like to share our stories here. Feel free to get inspired by them!</p>
-    <div class="carousel">
-      <button class="nav prev" aria-label="Previous images">‹</button>
-      <div class="track"><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a><a href="#">image</a></div>
-      <button class="nav next" aria-label="Next images">›</button>
-    </div>
+    <div class="track static"><a class="soon" href="https://de.pinterest.com/by_alva_marit/" target="_blank" rel="noopener"><b>First posts coming soon</b><span>Follow me on Pinterest</span></a></div>
   </section>
 </main>
 
@@ -214,6 +208,8 @@
 <script>
   document.querySelectorAll(".carousel").forEach(function (c) {
     var track = c.querySelector(".track");
+    function checkArrows() { c.classList.toggle("no-scroll", track.scrollWidth <= track.clientWidth + 1); }
+    checkArrows(); window.addEventListener("resize", checkArrows);
 
     // Arrow buttons scroll by about one screenful
     c.querySelector(".prev").addEventListener("click", function () { track.scrollBy({ left: -track.clientWidth * 0.8, behavior: "smooth" }); });
